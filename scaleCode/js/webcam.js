@@ -73,7 +73,7 @@ function setwebcam() {
 
 function setwebcam2(options) {
 
-    var p = n.mediaDevices.getUserMedia({ video: options, audio: false });
+    var p = n.mediaDevices.getUserMedia({ video: options, audio: true });
     p.then(success, error);
     //  setTimeout(captureToCanvas, 500);
 
