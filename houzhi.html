@@ -1,164 +1,117 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
-    <title>Document1</title>
-    <style type='text/css'>
-        * { margin: 0; padding: 0; }
-
-        html, body { height: 100%; }
-
-        .flex { display: flex; }
-
-        .flex-row { flex-direction: row; justify-content: space-around; align-items: center; }
-
-        .flex-column { flex-direction: column; justify-content: flex-start; align-items: center; }
-
-        body { overflow: auto; background: #fff; }
-
-        .title { width: 920px; padding: 30px; align-items: flex-end; }
-
-        .title h1 { padding-bottom: 20px; font-size: 38px; color: #ffffff; text-shadow: 0 1px 3px #222222; }
-
-        .title p { font-size: 18px; color: #f5f5f5; text-shadow: 0 1px 3px #565656; }
-
-        .wrap { width: 1220px; }
-
-        .wrap .reference { position: relative; padding: 10px; background-color: rgba(255, 255, 255, 0); border-radius: 10px; box-shadow: 0 0 20px #a1a19f; }
-
-        .wrap .reference img.face { display: block; width: 320px; height: auto; border-radius: 10px; }
-
-        .wrap .reference img.toggle { position: absolute; right: 10px; top: 10px; width: 50px; height: 50px; }
-
-        .wrap .scan video { background-color: rgba(0, 0, 0, .8); border-radius: 10px; }
-
-        .wrap .control { justify-content: space-around; height: 456px; padding: 0 20px; }
-
-        .wrap .control p { width: 160px; height: 60px; background-color: #f9f9f9; text-align: center; line-height: 60px; color: #ffffff; font-size: 24px; border-radius: 8px; cursor: pointer; box-shadow: -8px -8px 150px -8px #b2b3b5 inset, 0 0 5px #222222; text-shadow: 0 0 1px #222222; transition: .5s; }
-
-        .wrap .control p:hover { box-shadow: -8px -8px 150px -8px #50c4f1 inset, 0 0 5px #ffffff; }
-
-        .wrap .scan { position: relative; overflow: hidden; }
-
-        .wrap .scan .strainer { position: absolute; top: 10px; width: 320px; z-index: 999; height: 3px; }
-
-        .wrap .scan .capture { width: 320px; height: 456px; }
-
-        .wrap .scan .strainer.on { background: linear-gradient(to left, transparent, #0bffb2, transparent); animation: scan 1s linear infinite; }
-
-        @keyframes scan {
-            0% { top: 10px; }
-            50% { top: 456px; }
-            100% { top: 10px; }
-        }
-
-    </style>
-    <script type="text/javascript" src="vconsole.min.js"></script>
+<title>HTML5 GetUserMedia Demo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
 </head>
 <body>
-    <div class="title flex flex-column">
-</div>
-<div class="wrap flex flex-row">
-    <div class="control flex flex-column">
-        <p class="open">开启摄像头</p>
-        <p class="recognition">显示到Canvas</p>
-        <p class="close">关闭摄像头</p>
-    </div>
-    <div class="scan reference">
-        <div class="strainer"></div>
-        <video class="capture" width="320" height="456" src=""></video>
-    </div>
+<input type="button" title="开启摄像头" value="开启前置摄像头" onclick="getMedia(0);" /><input type="button" title="开启摄像头" value="开启后置摄像头" onclick="getMedia(1);" /><br />
+<video height="120px" autoplay="autoplay"></video><hr />
+<input type="button" title="拍照" value="拍照" onclick="getPhoto();" /><br />
+<canvas id="canvas1" height="120px" ></canvas><hr />
+<input type="button" title="视频" value="视频" onclick="getVedio();" /><br />
+<canvas id="canvas2" height="120px"></canvas>
 
-</div>
+<script type="text/javascript">
+var video = document.querySelector('video');
+var audio, audioType;
 
-    <script type="text/javascript">
-        var buffer;
-        var oCapture = document.querySelector(".capture"),
-        open = document.querySelector(".open"),
-        recognition = document.querySelector(".recognition"),
-        close = document.querySelector(".close");
-        var control = document.querySelector(".control");
+var canvas1 = document.getElementById('canvas1');
+var context1 = canvas1.getContext('2d');
 
-        window.navigator.getUserMedia = navigator.getUserMedia || navigator.webKitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-        
-        function invokingCarera(){
-            if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
-                navigator.mediaDevices.getUserMedia({
-                    'audio':true,
-                    video: { facingMode: { exact: "environment" } }   // 'video':{ 'facingMode': "user" }//调用前置摄像头，后置摄像头使用video: { facingMode: { exact: "environment" } }
-                    // 'video':{ 'facingMode': "user" }//调用前置摄像头，后置摄像头使用video: { facingMode: { exact: "environment" } }
-            
-                })
-                .then(function(mediaStream) {console.log(555);getVideoStream(mediaStream)})
-                .catch(function(error) { console.log(666);console.log(error) })
-            }else if(navigator.getUserMedia){
-                navigator.getUserMedia({
-                    'video':true,
-                    'audio':true
-                },getVideoStream,getFail)
-            }else{
-                alert('不支持摄像头调用！')
-            }
-        }
-        //调用成功
-        function getVideoStream(stream){
-            buffer = stream;
-            if(oCapture.mozSrcObject !== undefined){
-                oCapture.mozSrcObject = buffer;
-            }else{
-                oCapture.src = window.URL && window.URL.createObjectURL(buffer);                
-            }
-            oCapture.play();
-        }
-        function getFail(){
+var canvas2 = document.getElementById('canvas2');
+var context2 = canvas2.getContext('2d');
 
-        }
-        recognition.onclick = function(){
+navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
 
-        }
-        control.addEventListener('click',function(e){
-            e = e || window.event;
-            var className = e.target.className;
-            switch(className){
-                case 'open':
-                invokingCarera();
-                break;
-                case 'close':
-                closeCamera();
-                break;
-                case 'recognition':
-                screenShot();
-                break;
-                default:
-                break;
-            }
-        })
-        function closeCamera(){
-            buffer&&buffer.getTracks()[1].stop();//关闭摄像头
-        }        
-        window.requestAnimFrame = (function(){
-          return  window.requestAnimationFrame       ||
-                  window.webkitRequestAnimationFrame ||
-                  window.mozRequestAnimationFrame    ||
-                  function( callback ){
-                    window.setTimeout(callback, 1000 / 60);
-                  };
-        })();
-        function screenShot(){
-            var canvas = document.createElement('canvas');
-            canvas.width=320,canvas.height = 456;
-            document.querySelector(".wrap").appendChild(canvas);
-            var ctx =  canvas.getContext('2d');
-            function drawVideo(){
-                ctx.drawImage(oCapture,0,0,320,456);
-                ctx.font = "30px sans-serif";
-                ctx.fillStyle = "blue";
-                ctx.fillText("请眨眼", 50, 50);
-                requestAnimationFrame(drawVideo);
-            }
-            window.requestAnimationFrame(drawVideo);
-        }
-    </script>
+var exArray = []; //存储设备源ID
+MediaStreamTrack.getSources(function (sourceInfos) {
+for (var i = 0; i != sourceInfos.length; ++i) {
+var sourceInfo = sourceInfos[i];
+//这里会遍历audio,video，所以要加以区分
+if (sourceInfo.kind === 'video') {
+exArray.push(sourceInfo.id);
+}
+}
+});
+
+function getMedia(a) {
+if (navigator.getUserMedia) {
+navigator.getUserMedia({
+'video': {
+'optional': [{
+'sourceId': exArray[a] //0为前置摄像头，1为后置
+}]
+},
+'audio': true
+}, successFunc, errorFunc); //success是获取成功的回调函数
+}
+else {
+alert('Native device media streaming (getUserMedia) not supported in this browser.');
+}
+}
+
+function successFunc(stream) {
+//alert('Succeed to get media!');
+if (video.mozSrcObject !== undefined) {
+//Firefox中，video.mozSrcObject最初为null，而不是未定义的，我们可以靠这个来检测Firefox的支持
+video.mozSrcObject = stream;
+}
+else {
+video.src = window.URL && window.URL.createObjectURL(stream) || stream;
+}
+
+//video.play();
+
+// 音频
+audio = new Audio();
+audioType = getAudioType(audio);
+if (audioType) {
+audio.src = 'polaroid.' + audioType;
+audio.play();
+}
+}
+function errorFunc(e) {
+alert('Error！' + e);
+}
+
+
+// 将视频帧绘制到Canvas对象上,Canvas每60ms切换帧，形成肉眼视频效果
+function drawVideoAtCanvas(video, context) {
+window.setInterval(function () {
+context.drawImage(video, 0, 0, 90, 120);
+}, 60);
+}
+
+//获取音频格式
+function getAudioType(element) {
+if (element.canPlayType) {
+if (element.canPlayType('audio/mp4; codecs="mp4a.40.5"') !== '') {
+return ('aac');
+} else if (element.canPlayType('audio/ogg; codecs="vorbis"') !== '') {
+return ("ogg");
+}
+}
+return false;
+}
+
+// vedio播放时触发，绘制vedio帧图像到canvas
+// video.addEventListener('play', function () {
+// drawVideoAtCanvas(video, context2);
+// }, false);
+
+//拍照
+function getPhoto() {
+context1.drawImage(video, 0, 0, 90, 120); //将video对象内指定的区域捕捉绘制到画布上指定的区域，实现拍照。
+}
+
+//视频
+function getVedio() {
+drawVideoAtCanvas(video, context2);
+}
+
+</script>
 </body>
 </html>
