@@ -1,0 +1,171 @@
+<html>
+<head>
+  <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta content="email=no" name="format-detection">
+  <script type="text/javascript" src="https://cdn.bootcss.com/jquery/2.0.0/jquery.js"></script>
+
+  <title>scan-code</title>
+  <style type="text/css">
+    *{
+        padding:0;
+        margin:0;
+    }
+    a{
+        text-decoration:none;
+        color:#fff;
+    }
+    html{
+        width:100%;
+        height:100%;
+        font-size:16px;
+    }
+    body{
+        width:100%;
+        height:100%;
+
+    }
+    .total{
+        width:100%;
+        height:100%;
+        /*background:url(/static/img/bg2.jpeg) no-repeat;*/
+        background-size:100% 100%;
+        overflow: hidden;
+        /*background-color: #322F42;*/
+    }
+    #back_upper{
+        display: block;
+        width:4rem;
+        height:4rem;
+        margin-top: 1rem;
+        margin-left: 1rem;
+        background:url(http://img0.ph.126.net/7vVoDLyELLu5Ti2agzvxjA==/106116066320155563.png) no-repeat;
+        opacity:1;
+    }
+    #v{
+        width:320px;
+        height:240px;
+    }
+    #qr-canvas{
+        display:none;
+    }
+    #outdiv
+    {
+
+    }
+    .scanning_frame{
+        margin:5rem auto;
+        width:320px;
+        height:240px;
+        border: 3px solid #000;
+        position: relative
+    }
+    .infor{
+        width:15rem;
+        height: 4rem;
+        text-align: center;
+        line-height: 4rem;
+        background:#d81e06;
+        color: #fff;
+        border-radius: 2rem;
+        opacity: 0.6;
+        margin:0 auto;
+    }
+    #result{
+        width:15rem;
+        height:4rem;
+        font-size:2rem;
+        text-align: center;
+        line-height: 4rem;
+        margin:0 auto;
+        color: #d81e06;
+    }
+    /*加载动画效果*/
+    .spinner {
+        width: 60px;
+        height: 60px;
+        position: absolute;
+        top:90px;
+        left: 130px;
+        /*background-color: #fff;*/
+    }
+
+    .double-bounce1, .double-bounce2 {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-color: #d81e06;
+        opacity: 0.6;
+        position: absolute;
+        top: 0;
+        left: 0;
+        -webkit-animation: bounce 2.0s infinite ease-in-out;
+        animation: bounce 2.0s infinite ease-in-out;
+    }
+
+    .double-bounce2 {
+        -webkit-animation-delay: -1.0s;
+        animation-delay: -1.0s;
+    }
+
+    @-webkit-keyframes bounce {
+        0%, 100% { -webkit-transform: scale(0.0) }
+        50% { -webkit-transform: scale(1.0) }
+    }
+
+    @keyframes bounce {
+        0%, 100% {
+        transform: scale(0.0);
+        -webkit-transform: scale(0.0);
+        }
+        50% {
+        transform: scale(1.0);
+        -webkit-transform: scale(1.0);
+        }
+    }
+    </style>
+</head>
+
+<body>
+    <div class="total">
+        <!-- 扫码区域 -->
+        <div id="outdiv" class="scanning_frame">
+            <video id="v" autoplay></video>
+            <canvas id="qr-canvas"></canvas>
+            <!--加载动画-->
+            <div class="spinner" id="loading">
+                <div class="double-bounce1"></div>
+                <div class="double-bounce2"></div>
+            </div>
+        </div>
+        <div class="infor">请扫描车上的二维码</div>
+        <!-- 展示扫码结果 -->
+        <div>
+            <p id="result"></p>
+        </div>
+    </div>
+
+<script type="text/javascript" src="./jsqrcode/src/grid.js"></script>
+<script type="text/javascript" src="./jsqrcode/src/version.js"></script>
+<script type="text/javascript" src="./jsqrcode/src/detector.js"></script>
+<script type="text/javascript" src="./jsqrcode/src/formatinf.js"></script>
+<script type="text/javascript" src="./jsqrcode/src/errorlevel.js"></script>
+<script type="text/javascript" src="./jsqrcode/src/bitmat.js"></script>
+<script type="text/javascript" src="./jsqrcode/src/datablock.js"></script>
+<script type="text/javascript" src="./jsqrcode/src/bmparser.js"></script>
+<script type="text/javascript" src="./jsqrcode/src/datamask.js"></script>
+<script type="text/javascript" src="./jsqrcode/src/rsdecoder.js"></script>
+<script type="text/javascript" src="./jsqrcode/src/gf256poly.js"></script>
+<script type="text/javascript" src="./jsqrcode/src/gf256.js"></script>
+<script type="text/javascript" src="./jsqrcode/src/decoder.js"></script>
+<script type="text/javascript" src="./jsqrcode/src/qrcode.js"></script>
+<script type="text/javascript" src="./jsqrcode/src/findpat.js"></script>
+<script type="text/javascript" src="./jsqrcode/src/alignpat.js"></script>
+<script type="text/javascript" src="./jsqrcode/src/databr.js"></script>
+<script src="js/webcam.js"></script>
+<script type="text/javascript">load()</script>
+</body>
+</html>
