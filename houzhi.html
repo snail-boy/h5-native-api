@@ -86,7 +86,9 @@
             if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
                 navigator.mediaDevices.getUserMedia({
                     'audio':true,
-                    'video':{ 'facingMode': "user" }//调用前置摄像头，后置摄像头使用video: { facingMode: { exact: "environment" } }
+                    video: { facingMode: { exact: "environment" } }   // 'video':{ 'facingMode': "user" }//调用前置摄像头，后置摄像头使用video: { facingMode: { exact: "environment" } }
+                    // 'video':{ 'facingMode': "user" }//调用前置摄像头，后置摄像头使用video: { facingMode: { exact: "environment" } }
+            
                 })
                 .then(function(mediaStream) {console.log(555);getVideoStream(mediaStream)})
                 .catch(function(error) { console.log(666);console.log(error) })
