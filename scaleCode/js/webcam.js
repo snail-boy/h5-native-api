@@ -36,10 +36,6 @@ function initCanvas(w, h) {
     gCtx.clearRect(0, 0, w, h);
 }
 
-var options = { 
-                                'deviceId': { 'exact': device.deviceId },
-                                facingMode: { exact: "environment" }
-                             };
 function setwebcam() {
     var options = true;
     if (navigator.mediaDevices && navigator.mediaDevices.enumerateDevices) {
@@ -50,7 +46,7 @@ function setwebcam() {
                         if (device.label.toLowerCase().search("back") > -1)
                             options = { 
                                 'deviceId': { 'exact': device.deviceId },
-                                facingMode: { exact: "environment" }
+                                'facingMode': { exact: "environment" }
                              };
                     }
 
@@ -73,7 +69,7 @@ function setwebcam() {
 
 function setwebcam2(options) {
 
-    var p = n.mediaDevices.getUserMedia({ video: options, audio: true });
+    var p = n.mediaDevices.getUserMedia({ video: options, audio: false });
     p.then(success, error);
     //  setTimeout(captureToCanvas, 500);
 

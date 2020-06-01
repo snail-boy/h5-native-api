@@ -1,0 +1,41 @@
+{
+    "code": "0000",
+    "msg": "查询区块信息成功",
+    "data": {
+        "total": 1,
+        "list": [
+            {
+                "blockNumber": 1,
+                "blockHash": "区块哈希",
+                "parentBlockHash": "父区块哈希",
+                "txNumber": 1,
+                "blockDifficulty": 1,
+                "totalDifficulty": 1,
+                "blockSize": 1,
+                "blockTime": "2020-05-26 22:05:25",
+                "createBy": "admin",
+                "createTime": "2020-05-26 22:05:30",
+                "updateBy": "admin",
+                "updateTime": "2020-05-26 22:05:35"
+            }
+        ],
+        "pageNum": 1,
+        "pageSize": 10,
+        "size": 1,
+        "startRow": 1,
+        "endRow": 1,
+        "pages": 1,
+        "prePage": 0,
+        "nextPage": 0,
+        "isFirstPage": true,
+        "isLastPage": true,
+        "hasPreviousPage": false,
+        "hasNextPage": false,
+        "navigatePages": 8,
+        "navigatepageNums": [
+            1
+        ],
+        "navigateFirstPage": 1,
+        "navigateLastPage": 1
+    }
+}
